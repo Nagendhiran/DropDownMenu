@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:id="@+id/menu"
         android:background="@color/ripple_material_dark"
-        android:layout_height="60dp"/>
+        android:layout_height="100dp"/>
 
     <ListView
         android:layout_width="fill_parent"

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.jayfang.dropdownmenu.DropDownMenu;
 import com.jayfang.dropdownmenu.OnMenuSelectedListener;
@@ -31,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
     final String[] arr3=new String[]{"全部年龄","10","20","30","40","50","60","70"};
 
     final String[] strings=new String[]{"选择城市","选择性别","选择年龄"};
-
+    ArrayAdapter<String> adapter = null ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
 
         mMenu=(DropDownMenu)findViewById(R.id.menu);
 
-        mMenu.setmMenuCount(3);
+        mMenu.setmMenuCount(2);
         mMenu.setmShowCount(6);
         mMenu.setShowCheck(true);
         mMenu.setmMenuTitleTextSize(16);
@@ -50,15 +51,15 @@ public class MainActivity extends ActionBarActivity {
         mMenu.setmMenuPressedBackColor(Color.WHITE);
         mMenu.setmMenuPressedTitleTextColor(Color.BLACK);
 
-        mMenu.setmCheckIcon(R.drawable.ico_make);
+        //mMenu.setmCheckIcon(R.drawable.ico_make);
 
-        mMenu.setmUpArrow(R.drawable.arrow_up);
-        mMenu.setmDownArrow(R.drawable.arrow_down);
+        mMenu.setmUpArrow(R.drawable.ic_keyboard_arrow_up_black_24dp);
+        mMenu.setmDownArrow(R.drawable.ic_keyboard_arrow_down_black_24dp);
 
         mMenu.setDefaultMenuTitle(strings);
 
 
-        mMenu.setShowDivider(false);
+        mMenu.setShowDivider(true);
         mMenu.setmMenuListBackColor(getResources().getColor(R.color.white));
         mMenu.setmMenuListSelectorRes(R.color.white);
         mMenu.setmArrowMarginTitle(20);
@@ -81,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
         List<String[]> items = new ArrayList<>();
         items.add(arr1);
         items.add(arr2);
-        items.add(arr3);
+        //items.add(arr3);
         mMenu.setmMenuItems(items);
 
 //        new Handler().postDelayed(new Runnable() {
@@ -99,9 +100,23 @@ public class MainActivity extends ActionBarActivity {
         mMenu.setIsDebug(false);
 
         mList=(ListView)findViewById(R.id.lv_list);
-        data=getData();
-        mList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, data));
+        mList.setAdapter(getAdapter());
+        //mMenu.addCallbackAdapter(adapter);
 
+        mMenu.setMenuResetListener(new Runnable() {
+            @Override
+            public void run() {
+                mList.invalidate();
+                mList.setAdapter(getAdapter());
+                //adapter.notifyDataSetChanged();
+                Log.d("Test", "reset the list entries");
+            }
+        });
+    }
+
+    public void invalidateDropdownMenu(View view) {
+        Log.d("Test", "text");
+        Toast.makeText(this, "Test message", Toast.LENGTH_LONG);
     }
 
     private void setFilter(){
@@ -115,6 +130,11 @@ public class MainActivity extends ActionBarActivity {
             }
         }
         mList.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_expandable_list_item_1,temp));
+    }
+
+    private ArrayAdapter<String> getAdapter() {
+        data = getData();
+        return new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, data);
     }
 
     private List<String> getData(){
