@@ -1,3 +1,34 @@
+# DropDownMenu Extended
+
+Added a provision to clear up filtering conditions with simple tap.
+
+#Usage
+1. Enable/Disable Filter clear option for DropDownMenu
+
+```
+ mMenu.setClearFilter(false); //Default is true
+```
+
+2. User can set up filter clear icon resource if needed.
+
+```
+//Recommended at least 36/48px sized icons
+mMenu.setClearFilterIconResource(R.drawable.ic_clear_48dp);
+```
+
+3. Attach a runnable thread to DropDownMenu handler to load listview default/new values upon filter clearing.
+
+```
+mMenu.setMenuResetListener(new Runnable() {
+    @Override
+    public void run() {
+        mList.invalidate();
+        mList.setAdapter(getAdapter());
+        Log.d("Test", "reset the list entries");
+    }
+});
+```
+
 # DropDownMenu
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-DropDownMenu-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1753)
@@ -63,7 +94,7 @@ Usage
         });
 ```
 
-Update 
+Update
 ----
 ### 2015.8.17
 ```
@@ -79,7 +110,7 @@ Update
         mMenu.setMenuPressedTitleTextColor(Color.BLACK);//Menu按下状态的title文字颜色
         mMenu.setIsDebug(false);//关闭提醒
 ```
-        
+
 Contact
 ----------
 * Blog:[http://fangjie.info/](http://fangjie.info/)
@@ -107,8 +138,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-
-        
-
-        
